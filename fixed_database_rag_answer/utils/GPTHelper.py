@@ -1,5 +1,4 @@
 from openai import AsyncOpenAI
-from utils.GlobalImport import *
 import traceback
 
 
@@ -7,9 +6,9 @@ import traceback
 class GPTHelper:
     async def gptChat(system_prompt,question,temperature,is_stream):
         response_result=""
-        client = AsyncOpenAI( api_key="xinference", base_url ="http://58.214.239.10:20005/v1")
+        client = AsyncOpenAI( api_key="sk-a40e2f7927d94b4e81407aa71876869e", base_url ="https://dashscope.aliyuncs.com/compatible-mode/v1")
         try:
-            chat_completion = await client.chat.completions.create(model="/raid/xinference/modelscope/hub/qwen/Qwen2-72B-Instruct", 
+            chat_completion = await client.chat.completions.create(model="qwen-max", 
             messages=[{"role":"system","content":system_prompt},
                     {"role": "user", "content": question}],
                     temperature=temperature,
@@ -25,8 +24,8 @@ class GPTHelper:
             
     async def gptChatComplete(system_prompt,question,temperature):
         try:
-            client = AsyncOpenAI( api_key="xinference", base_url ="http://58.214.239.10:20005/v1")
-            chat_completion = await client.chat.completions.create(model="/raid/xinference/modelscope/hub/qwen/Qwen2-72B-Instruct", 
+            client = AsyncOpenAI( api_key="sk-a40e2f7927d94b4e81407aa71876869e", base_url ="https://dashscope.aliyuncs.com/compatible-mode/v1")
+            chat_completion = await client.chat.completions.create(model="qwen-max", 
             messages=[{"role":"system","content":system_prompt},
                     {"role": "user", "content": question}],
                     temperature=temperature,
@@ -42,8 +41,8 @@ class GPTHelper:
     async def gptChatStream(system_prompt,question,temperature,is_stream):
         response_result=""
         try:
-            client = AsyncOpenAI( api_key="xinference", base_url ="http://58.214.239.10:20005/v1")
-            chat_completion = await client.chat.completions.create(model="/raid/xinference/modelscope/hub/qwen/Qwen2-72B-Instruct", 
+            client = AsyncOpenAI( api_key="sk-a40e2f7927d94b4e81407aa71876869e", base_url ="https://dashscope.aliyuncs.com/compatible-mode/v1")
+            chat_completion = await client.chat.completions.create(model="qwen-max", 
             messages=[{"role":"system","content":system_prompt},
                     {"role": "user", "content": question}],
                     temperature=temperature,
@@ -61,8 +60,8 @@ class GPTHelper:
     async def gptChatStreamOnlySystem(system_prompt,temperature,is_stream):
         response_result = ""
         try:
-            client =  AsyncOpenAI(api_key="xinference", base_url= "http://58.214.239.10:20005/v1")
-            chat_completion = await client.chat.completions.create(model="/raid/xinference/modelscope/hub/qwen/Qwen2-72B-Instruct",
+            client =  AsyncOpenAI(api_key="sk-a40e2f7927d94b4e81407aa71876869e", base_url= "https://dashscope.aliyuncs.com/compatible-mode/v1")
+            chat_completion = await client.chat.completions.create(model="qwen-max",
                                                                    messages=[{"role":"system","content":system_prompt}],
                                                                    temperature=temperature,
                                                                    stream=is_stream)
