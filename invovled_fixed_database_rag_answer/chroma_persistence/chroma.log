@@ -310,3 +310,4 @@ chromadb.db.base.UniqueConstraintError: Collection paper_knowledgebase already e
 [32mINFO[0m:     [26-09-2024 19:32:10] 127.0.0.1:61606 - "POST /api/v1/collections?tenant=default_tenant&database=default_database HTTP/1.1" 200
 [32mINFO[0m:     [26-09-2024 19:32:15] 127.0.0.1:61642 - "POST /api/v1/collections/ea428610-4528-4c8b-9a0a-b23918f164fa/query HTTP/1.1" 200
 [32mINFO[0m:     [26-09-2024 19:32:17] 127.0.0.1:61656 - "POST /api/v1/collections/ea428610-4528-4c8b-9a0a-b23918f164fa/query HTTP/1.1" 200
+[32mINFO[0m:     [26-09-2024 19:32:19] 127.0.0.1:61662 - "POST /api/v1/collections/ea428610-4528-4c8b-9a0a-b23918f164fa/query HTTP/1.1" 200
