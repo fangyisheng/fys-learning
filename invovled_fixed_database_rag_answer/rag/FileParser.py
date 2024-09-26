@@ -97,7 +97,7 @@ class FileParser:
         for root, dirs, files in os.walk(folder_path):
             for file in files:
                 file_path = os.path.join(root, file)
-                
+                file_name = os.path.basename(file_path)
                 file_type = self.get_file_type_for_path(file_path)
                 logger.info(f"正在处理文件: {file_path}\n 处理文件的类型为:{file_type}")
                 if file_type is None:
@@ -107,26 +107,26 @@ class FileParser:
                     docx_path = self.convert_doc_to_docx(file_path)
                     docx_content = self.read_docx(docx_path)
                     cleaned_content = self.clean_text(docx_content)
-                    processed_files.append((file_path, cleaned_content))
+                    processed_files.append((file_path, file_name,cleaned_content))
                 
                 elif file_type == 'docx':
                     docx_content = self.read_docx(file_path)
                     cleaned_content = self.clean_text(docx_content)
-                    processed_files.append((file_path, cleaned_content))
+                    processed_files.append((file_path, file_name,cleaned_content))
                 
                 elif file_type == 'pdf':
                     pdf_content = self.read_pdf(file_path)
                     cleaned_content = self.clean_text(pdf_content)
-                    processed_files.append((file_path, cleaned_content))
+                    processed_files.append((file_path, file_name,cleaned_content))
         
         return processed_files
 
 
-folder_path = r"D:\code\fys-learning\invovled_fixed_database_rag_answer\rag\demo_file"
-parser = FileParser(folder_path)
-print(parser)
-processed_files = parser.process_folder(folder_path)
-print(processed_files)
-for file_path, content in processed_files:
-    print(f"文件路径: {file_path}")
-    print(f"内容: {content}\n")
+# folder_path = r"D:\code\fys-learning\invovled_fixed_database_rag_answer\rag\demo_file"
+# parser = FileParser(folder_path)
+# print(parser)
+# processed_files = parser.process_folder(folder_path)
+# print(processed_files)
+# for file_path, content in processed_files:
+#     print(f"文件路径: {file_path}")
+#     print(f"内容: {content}\n")
