@@ -91,6 +91,7 @@ class FileParser:
     def process_folder(self, folder_path):
         """
         遍历文件夹中的所有文件，并根据文件类型进行处理。
+        如果某个文件读取失败，直接跳过该文件。
         """
         
         for root, dirs, files in os.walk(folder_path):
@@ -102,26 +103,30 @@ class FileParser:
                 if file_type is None:
                     continue
                 
-                if file_type == 'doc':
-                    docx_path = self.convert_doc_to_docx(file_path)
-                    docx_content = self.read_docx(docx_path)
-                    cleaned_content = self.clean_text(docx_content)
-                    
-                elif file_type == 'docx':
-                    docx_content = self.read_docx(file_path)
-                    cleaned_content = self.clean_text(docx_content)
-                    
-                elif file_type == 'pdf':
-                    pdf_content = self.read_pdf(file_path)
-                    cleaned_content = self.clean_text(pdf_content)
+                try:
+                    if file_type == 'doc':
+                        docx_path = self.convert_doc_to_docx(file_path)
+                        docx_content = self.read_docx(docx_path)
+                        cleaned_content = self.clean_text(docx_content)
+                        
+                    elif file_type == 'docx':
+                        docx_content = self.read_docx(file_path)
+                        cleaned_content = self.clean_text(docx_content)
+                        
+                    elif file_type == 'pdf':
+                        pdf_content = self.read_pdf(file_path)
+                        cleaned_content = self.clean_text(pdf_content)
 
-                chunk_content = FileChunkQuery.file_chunk(cleaned_content, file_name)[0]
-                logger.info(f"分词后内容: {chunk_content}\n")
-                logger.info(f"分词后内容长度: {len(chunk_content)}\n")
-                embeddings = FileChunkQuery.embed(chunk_content)
-                print(embeddings["data"][0]["embedding"])
-                print(type(embeddings["data"][0]["embedding"]))
-                embeddings_list =[embed["embedding"] for embed in embeddings["data"]]
+                    chunk_content = FileChunkQuery.file_chunk(cleaned_content, file_name)[0]
+                    logger.info(f"分词后内容: {chunk_content}\n")
+                    logger.info(f"分词后内容长度: {len(chunk_content)}\n")
+                    embeddings = FileChunkQuery.embed(chunk_content)
+                    print(embeddings["data"][0]["embedding"])
+                    print(type(embeddings["data"][0]["embedding"]))
+                    embeddings_list =[embed["embedding"] for embed in embeddings["data"]]
+                except Exception as e:
+                    logger.error(f"处理文件 {file_path} 时出错: {str(e)}")
+                    continue  # 跳过当前文件，继续处理下一个文件
 
         return {"status": "1000多篇文章embedding_success"}
 
