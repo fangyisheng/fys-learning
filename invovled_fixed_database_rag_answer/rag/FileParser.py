@@ -3,7 +3,7 @@ from docx import Document
 from PyPDF2 import PdfReader
 import comtypes.client
 from loguru import logger
-
+from FileChunkQuery import FileChunkQuery
 
 
 class FileParser:
@@ -30,8 +30,8 @@ class FileParser:
         """
         将 .doc 文件转换为 .docx 文件。
         """
-        if not doc_path.endswith(".doc"):
-            raise ValueError("文件必须是 .doc 格式")
+        # if not doc_path.endswith(".doc"):
+        #     raise ValueError("文件必须是 .doc 格式")
         
         word = comtypes.client.CreateObject('Word.Application')
         word.Visible = False  # 后台运行 Word
@@ -92,7 +92,6 @@ class FileParser:
         """
         遍历文件夹中的所有文件，并根据文件类型进行处理。
         """
-        processed_files = []
         
         for root, dirs, files in os.walk(folder_path):
             for file in files:
@@ -107,19 +106,24 @@ class FileParser:
                     docx_path = self.convert_doc_to_docx(file_path)
                     docx_content = self.read_docx(docx_path)
                     cleaned_content = self.clean_text(docx_content)
-                    processed_files.append((file_path, file_name,cleaned_content))
-                
+                    
                 elif file_type == 'docx':
                     docx_content = self.read_docx(file_path)
                     cleaned_content = self.clean_text(docx_content)
-                    processed_files.append((file_path, file_name,cleaned_content))
-                
+                    
                 elif file_type == 'pdf':
                     pdf_content = self.read_pdf(file_path)
                     cleaned_content = self.clean_text(pdf_content)
-                    processed_files.append((file_path, file_name,cleaned_content))
-        
-        return processed_files
+
+                chunk_content = FileChunkQuery.file_chunk(cleaned_content, file_name)[0]
+                logger.info(f"分词后内容: {chunk_content}\n")
+                logger.info(f"分词后内容长度: {len(chunk_content)}\n")
+                embeddings = FileChunkQuery.embed(chunk_content)
+                print(embeddings["data"][0]["embedding"])
+                print(type(embeddings["data"][0]["embedding"]))
+                embeddings_list =[embed["embedding"] for embed in embeddings["data"]]
+
+        return {"status": "1000多篇文章embedding_success"}
 
 
 # folder_path = r"D:\code\fys-learning\invovled_fixed_database_rag_answer\rag\demo_file"

@@ -1,4 +1,4 @@
-from FileChunkQuery import FileChunkQuery
+from rag.FileChunkQuery import FileChunkQuery
 from loguru import logger
 
 def get_knowledge_base_piece(prompt):

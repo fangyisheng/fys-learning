@@ -2,7 +2,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 import uuid
 from loguru import logger
 import traceback
-from EmbeddingModelConfig import collection
+from rag.EmbeddingModelConfig import collection
 from openai import OpenAI
 
 class FileChunkQuery:

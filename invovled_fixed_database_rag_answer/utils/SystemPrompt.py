@@ -47,24 +47,12 @@ def fixed_knowledge_multilingual(knowledge_base):
 你需要根据接收到的知识库片段，回答用户的问题。
 注意，你需要根据用户问题的语种回答用户的问题。
 
-1.用户输入："what is the ceo of openai"
-回答：用英语回答问题。
-
-2.用户输入："openai的CEO是谁"
-回答：用中文回答问题
 '''
 
 #这边对应的是没有知识库对应的纯基于预训练知识进行问答的系统提示
 def no_knowledge_multilingual():
     return '''
 请你根据用户问题的语言类型来回答问题
-
-1.用户输入："what is the ceo of openai"
-回答：用英语回答问题。
-
-2.用户输入："openai的CEO是谁"
-回答：用中文回答问题
-
 '''
 
 #这边对应的是翻译button接口

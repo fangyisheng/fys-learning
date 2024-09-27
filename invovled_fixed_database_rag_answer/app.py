@@ -4,15 +4,16 @@ from fastapi import FastAPI, Header, Request, HTTPException
 from fastapi.responses import StreamingResponse, JSONResponse
 from aggregation_all_operations import aggregation_all_operations_service_fun
 from aggregation_all_operations import aggregation_all_operations_chat_fun
+from typing import Any
 
 app = FastAPI()
 
 class chatArgs(BaseModel):
-    prompt :str
-
+    prompt:str
 class TransArgs(BaseModel):
     to_lan :str
     words :str
+
 @app.post("/api/v1/chat/completions")
 async def chat(item:chatArgs):
 
