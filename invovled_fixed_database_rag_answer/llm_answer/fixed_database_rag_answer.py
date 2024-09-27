@@ -1,8 +1,10 @@
 from utils.SystemPrompt import fixed_knowledge_multilingual
+from rag.final_knowledge_base_piece import get_knowledge_base_piece
 from utils.GPTHelper import GPTHelper
 from loguru import logger
-async def no_fixed_database_rag_answer_fun(prompt):
-    system_prompt = fixed_knowledge_multilingual()
+async def fixed_database_rag_answer_fun(prompt):
+    knowledge_base = get_knowledge_base_piece(prompt)
+    system_prompt = fixed_knowledge_multilingual(knowledge_base)
     logger.info(f"这是系统prompt:{system_prompt}\n")
     logger.info(f"这是用户prompt:{prompt}\n")
     full_content = ""

@@ -32,16 +32,16 @@ class FileChunkQuery:
         return completion.model_dump()
 
     
-    def vector_store(chunks,file_name):
+    def add_vector_store(chunks,embeddings,file_name):
         try:
             ids = [str(uuid.uuid4()) for _ in chunks]
             collection.add(
             ids=ids,
-            embeddings=FileChunkQuery.embed(chunks),
+            embeddings=embeddings,
             metadatas = [{"source": file_name, "id": unique_id} for unique_id in ids],
             documents = chunks,
             )
-            return ids
+            return collection.count()
         except Exception as e:
             logger.error(e)
             print(traceback.format_exc())
@@ -49,8 +49,7 @@ class FileChunkQuery:
     def file_query(query_embedding):
         results = collection.query(
     query_embeddings=[query_embedding],
-    n_results=2
+    n_results=4
         )
-
         return results
        
