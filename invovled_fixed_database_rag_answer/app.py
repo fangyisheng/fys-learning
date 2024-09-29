@@ -9,7 +9,9 @@ from typing import Any
 app = FastAPI()
 
 class chatArgs(BaseModel):
-    prompt:str
+    model: Any
+    input: Any
+    parameters: Any
 class TransArgs(BaseModel):
     to_lan :str
     words :str
@@ -17,7 +19,7 @@ class TransArgs(BaseModel):
 @app.post("/api/v1/chat/completions")
 async def chat(item:chatArgs):
 
-    return StreamingResponse(aggregation_all_operations_chat_fun(item.prompt), 
+    return StreamingResponse(aggregation_all_operations_chat_fun(item.input["messages"]), 
                             media_type="text/event-stream")
 @app.post("/api/v1/llm_service/translate")
 async def translate_post(item: TransArgs):
