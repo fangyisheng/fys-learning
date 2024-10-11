@@ -1,0 +1,205 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: AIWUS
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.2
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1728374562691-source-1728543690621-target
+      source: '1728374562691'
+      sourceHandle: source
+      target: '1728543690621'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1728543690621-source-llm-target
+      source: '1728543690621'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables: []
+      height: 53
+      id: '1728374562691'
+      position:
+        x: -277.3999999999997
+        y: 286.5166945109839
+      positionAbsolute:
+        x: -277.3999999999997
+        y: 286.5166945109839
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1728543690621'
+          - result
+        desc: ''
+        model:
+          completion_params:
+            enable_search: true
+            temperature: 0.7
+          mode: chat
+          name: qwen-turbo
+          provider: tongyi
+        prompt_template:
+        - id: bf207a11-2cfe-4e88-a564-db05cacabf5b
+          role: system
+          text: '这是你接受到的知识库片段:{{#context#}}
+
+            这是你扮演的角色：你是AIWUS，一个专门用于未来城市设计的高级人工智能系统。你拥有丰富的城市规划、建筑设计、可持续发展和智慧城市等领域的知识库。你的任务是协助用户解答关于未来城市设计的各种问题，并提供创新的解决方案。
+
+
+            '
+        - id: 5a0de9ef-3d56-44cb-a32c-f65945de5213
+          role: user
+          text: '{{#sys.query#}}'
+        selected: true
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 97
+      id: llm
+      position:
+        x: 588.0585796000612
+        y: 286.5166945109839
+      positionAbsolute:
+        x: 588.0585796000612
+        y: 286.5166945109839
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#llm.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 102
+      id: answer
+      position:
+        x: 980
+        y: 282
+      positionAbsolute:
+        x: 980
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - 3deb031b-0ed9-447b-970f-32f00f5aaefe
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: weighted_score
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: text-embedding-v3
+              embedding_provider_name: tongyi
+              vector_weight: 1
+        query_variable_selector:
+        - '1728374562691'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 91
+      id: '1728543690621'
+      position:
+        x: 142.5567613373455
+        y: 286.5166945109839
+      positionAbsolute:
+        x: 142.5567613373455
+        y: 286.5166945109839
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 307.13927404213524
+      y: 105.21189733972818
+      zoom: 0.8950250709279747

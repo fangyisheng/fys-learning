@@ -4,6 +4,7 @@ from loguru import logger
 import asyncio
 import uuid
 
+#调用Dify的中台URL
 url = "http://8.218.217.51:8000/v1/chat-messages"
 
 async def different_role_answer_func(prompt,authorization):
