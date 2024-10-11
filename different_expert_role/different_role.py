@@ -8,7 +8,7 @@ url = "http://8.218.217.51:8000/v1/chat-messages"
 
 async def different_role_answer_func(prompt,authorization):
     full_response = ""
-    logger.info(f"开始调用模型，用户提示词为:{prompt}")
+    logger.info(f"开始调用模型，用户提示词为:{prompt}\n")
     data = {
         "inputs": {},
         "query": prompt,
@@ -47,17 +47,8 @@ async def different_role_answer_func(prompt,authorization):
                             },
                             "request_id": str(uuid.uuid4())
                    }
-                        yield f'''data: {json.dumps(event_data, ensure_ascii=False)}\n\n'''
+                            yield f'''data: {json.dumps(event_data, ensure_ascii=False)}\n\n'''
                     except json.JSONDecodeError:
                         print(f"无法解析JSON: {line}")
 
-
-async def main():
-    prompt = "Your prompt here"
-    authorization = "Bearer app-mTUHXSJpqfKOYa8b9WDV5XCX"
-    async for chunk in different_role_answer_func(prompt, authorization):
-        print(chunk)  # This would normally be sent to the client
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    logger.info(f"完整响应内容: {full_response}\n")
