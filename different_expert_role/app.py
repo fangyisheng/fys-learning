@@ -13,9 +13,16 @@ class chatArgs(BaseModel):
     input: Any
     parameters: Any
 
-@app.post("/api/v1/chat/completions/wuzhiqiang")
+@app.post("/api/v1/chat/completions/aiwus")
 async def chat(item:chatArgs):
     
     authorization = "Bearer app-mTUHXSJpqfKOYa8b9WDV5XCX"
+    return StreamingResponse(different_role_answer_func(item.input["messages"],authorization), 
+                            media_type="text/event-stream")
+
+@app.post("/api/v1/chat/completions/changqing")
+async def chat(item:chatArgs):
+    
+    authorization = "Bearer app-kjmrktn1vi8OkcRXSV0UQYIW"
     return StreamingResponse(different_role_answer_func(item.input["messages"],authorization), 
                             media_type="text/event-stream")
