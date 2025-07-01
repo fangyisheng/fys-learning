@@ -1,0 +1,4 @@
+Flask
+google-generativeai
+PyPDF2
+# Add other dependencies as needed

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini PDF Parser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Gemini PDF Parser</h1>
+        <p>Upload a PDF to start interacting with its content.</p>
+
+        <!-- File Upload Section -->
+        <div class="upload-section">
+            <h2>1. Upload PDF</h2>
+            <form id="upload-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="file-input" accept=".pdf" required>
+                <button type="submit">Upload and Process</button>
+            </form>
+            <div id="upload-status">
+                {% if pdf_filename %}
+                    <p>Current PDF: <strong>{{ pdf_filename }}</strong>
+                        {% if pdf_processed %}
+                            (Successfully processed)
+                        {% else %}
+                            (Processing failed or not yet processed)
+                        {% endif %}
+                    </p>
+                {% else %}
+                    <p>No PDF uploaded yet.</p>
+                {% endif %}
+                {% if not gemini_initialized and GOOGLE_API_KEY %}
+                    <p style="color: red;">Error: Gemini API could not be initialized. Please check server logs and API key.</p>
+                {% elif not GOOGLE_API_KEY %}
+                     <p style="color: orange;">Warning: GOOGLE_API_KEY not provided. Chat functionality will be disabled.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Chat Interface Section -->
+        <div class="chat-section" id="chat-section" {% if not pdf_processed or not gemini_initialized %}style="display: none;"{% endif %}>
+            <h2>2. Chat with PDF ({{ pdf_filename }})</h2>
+            <div class="chat-history" id="chat-history">
+                {% for entry in chat_history %}
+                    <div class="message {{ 'user-message' if entry.role == 'user' else 'bot-message' }}">
+                        <span class="sender">{{ 'You' if entry.role == 'user' else 'Gemini' }}:</span>
+                        <span class="text">{{ entry.text }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Ask something about {{ pdf_filename if pdf_filename else 'the PDF' }}..." {% if not gemini_initialized %}disabled{% endif %}>
+                <button onclick="sendMessage()" {% if not gemini_initialized %}disabled{% endif %}>Send</button>
+            </div>
+        </div>
+
+        <!-- Knowledge Base Section -->
+        <div class="knowledge-base-section" id="knowledge-base-section" {% if not pdf_processed %}style="display: none;"{% endif %}>
+            <h2>3. Knowledge Base</h2>
+            <button id="save-to-kb" onclick="saveToKnowledgeBase()" {% if not pdf_processed %}disabled{% endif %}>Save Current PDF to Knowledge Base</button>
+            <div id="kb-files-list">
+                <h3>Available Knowledge Bases:</h3>
+                {% if knowledge_bases %}
+                    <ul>
+                        {% for kb_name in knowledge_bases %}
+                            <li>{{ kb_name }} <button onclick="loadKnowledgeBase('{{ kb_name }}')">Load</button></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No knowledge bases saved yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

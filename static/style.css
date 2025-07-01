@@ -1,0 +1,138 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    min-height: 100vh;
+    padding-top: 20px; /* Add some padding at the top */
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+.upload-section, .chat-section, .knowledge-base-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.upload-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-section input[type="file"] {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.upload-section button, .chat-input button, .knowledge-base-section button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-section button:hover, .chat-input button:hover, .knowledge-base-section button:hover {
+    background-color: #0056b3;
+}
+
+.chat-history {
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.message { /* Generic message style */
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    word-wrap: break-word;
+    max-width: 75%;
+    line-height: 1.4;
+}
+
+.user-message {
+    background-color: #dcf8c6; /* Light green, typical for user messages */
+    text-align: right;
+    margin-left: auto; /* Pushes to the right */
+}
+
+.bot-message {
+    background-color: #f1f0f0; /* Light grey, typical for bot messages */
+    text-align: left;
+    margin-right: auto; /* Pushes to the left */
+}
+
+.message .sender {
+    font-weight: bold;
+    margin-right: 5px;
+    display: block; /* Makes sender appear on its own line or use inline-block for same line */
+    font-size: 0.9em;
+    color: #555;
+}
+.user-message .sender {
+    color: #075e54; /* Darker green for user sender */
+}
+.bot-message .sender {
+    color: #333;
+}
+
+
+.message .text {
+    /* Styles for the actual message text if needed */
+}
+
+
+.chat-input {
+    display: flex;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+.chat-input button {
+    border-radius: 0 4px 4px 0;
+}
+
+#kb-files {
+    margin-top: 10px;
+}
+
+#kb-files div {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+#kb-files div:last-child {
+    border-bottom: none;
+}
